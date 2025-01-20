@@ -1,5 +1,6 @@
 const { User } = require("../model/queries");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
 const db = new User();
 
@@ -52,9 +53,14 @@ const createUser = [
 
             const { username, password, email } = req.body;
 
-            await db.createUser({ username, password, email });
+            bcrypt.hash(req.body.password, 10, async (err, hashedPass) => {
+                if (err) next(err);
 
-            res.status(204).send();
+                req.body.password = hashedPass;
+
+                await db.createUser(req.body);
+                res.sendStatus(204);
+            });
         } catch (err) {
             next(err);
         }
