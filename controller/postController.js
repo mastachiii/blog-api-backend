@@ -14,13 +14,30 @@ const createPost = [
         try {
             const errors = validationResult(req);
 
-            if (!errors.isEmpty()) res.status(400).json({ errorMessage: errors.array() });
+            if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
             const { title, body, private } = req.body;
 
-            db.createPost({ title, body, isPrivate: private });
+            const post = await db.createPost({ title, body, isPrivate: private });
+
+            return res.status(201).json({ post });
         } catch (err) {
             next(err);
         }
     },
 ];
+
+async function getAllPosts(req, res, next) {
+    try {
+        const posts = await db.getAllPosts();
+
+        return res.status(200).json({ posts });
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports = {
+    createPost,
+    getAllPosts,
+};
