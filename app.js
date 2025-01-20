@@ -1,4 +1,8 @@
 const express = require("express");
+const passport = require("passport");
+
+// Passport config
+const strategy = require("./passport/passport");
 
 // Routes
 const post = require("./routes/postRoutes");
@@ -11,8 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/posts", post);
 app.use("/", user);
+passport.use(strategy);
 
-app.get("/", (req, res) => {
+app.get("/", passport.authenticate("jwt", { session: false }), (req, res) => {
+    console.log(req.headers);
     res.send("Hello Express");
 });
 
