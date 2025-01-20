@@ -23,8 +23,6 @@ class Post {
             },
         });
 
-        console.log(post);
-
         return post;
     }
 
@@ -34,8 +32,6 @@ class Post {
                 comments: true,
             },
         });
-
-        console.log(posts);
 
         return posts;
     }
@@ -68,7 +64,7 @@ class Comment {
                 Post: true,
             },
         });
-        console.dir(comments, { colors: true, depth: null });
+
         return comments;
     }
 }
@@ -98,11 +94,13 @@ class User {
                 comments: true
             }
         });
-        console.log(user);
+
         return user;
     }
 }
 
-const postdb = new Post();
-const commentdb = new Comment();
-const userdb = new User();
+module.exports = {
+    Post,
+    Comment,
+    User
+}
