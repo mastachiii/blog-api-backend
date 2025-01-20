@@ -1,6 +1,8 @@
 const { User } = require("../model/queries");
 const { body, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
 const db = new User();
 
@@ -67,6 +69,27 @@ const createUser = [
     },
 ];
 
+async function logInUser(req, res, next) {
+    try {
+        const user = await db.getUserByUsername(req.body);
+        if (!user) return res.status(401).json({ message: "Incorrect username or password" });
+
+        const match = await bcrypt.compare(req.body.password, user.password);
+        if (!match) return res.status(401).json({ message: "Incorrect username or password" });
+
+        const secret = process.env.SECRET;
+
+        jwt.sign({ user }, secret, { expiresIn: "1d" }, (err, token) => {
+            if (err) next(err);
+
+            res.json(token);
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createUser,
+    logInUser,
 };
