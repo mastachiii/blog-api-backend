@@ -12,8 +12,10 @@ const options = {
     secretOrKey: process.env.SECRET,
 };
 
-module.exports = new JwtStrategy(options, async (payload, done) => {
+// Two auth strategies, one to protect routes from unauth users and the other one to protect routes from users other than me...
+const userStrategy = new JwtStrategy(options, async (payload, done) => {
     try {
+        console.log(payload)
         const user = await db.getUserByUsername({ username: payload.user.username });
         if (!user) return done(null, false);
 
@@ -22,3 +24,20 @@ module.exports = new JwtStrategy(options, async (payload, done) => {
         done(err);
     }
 });
+
+const authorStrategy = new JwtStrategy(options, async (payload, done) => {
+    try {
+        console.log(payload)
+        const user = await db.getUserByUsername({ username: payload.user.username });
+        if (user.username !== "mastachii") return done(null, false);
+
+        return done(null, user);
+    } catch (err) {
+        done(err);
+    }
+});
+
+module.exports = {
+    userStrategy,
+    authorStrategy,
+};

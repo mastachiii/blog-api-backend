@@ -28,9 +28,9 @@ const createPost = [
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
             const { title, body, private } = req.body;
-            const post = await post.createPost({ title, body, isPrivate: private });
+            const newPost = await post.createPost({ title, body, isPrivate: private });
 
-            return res.status(201).json({ post });
+            return res.status(201).json({ newPost });
         } catch (err) {
             next(err);
         }
