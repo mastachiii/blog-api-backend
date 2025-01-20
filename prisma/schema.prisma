@@ -17,7 +17,7 @@ model Post {
   id        String    @id @default(uuid())
   title     String
   body      String
-  private   Boolean   @default(false)
+  isPrivate Boolean   @default(false)
   createdAt DateTime  @default(now())
   comments  Comment[]
 }
