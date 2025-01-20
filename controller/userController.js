@@ -42,6 +42,25 @@ const validateUser = [
         .withMessage("The password does not match."),
 ];
 
-module.exports = {
+const createUser = [
     validateUser,
+    async (req, res, next) => {
+        try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) res.status(400).json({ errorMessage: errors.array() });
+
+            const { username, password, email } = req.body;
+
+            await db.createUser({ username, password, email });
+
+            res.status(204).send();
+        } catch (err) {
+            next(err);
+        }
+    },
+];
+
+module.exports = {
+    createUser,
 };

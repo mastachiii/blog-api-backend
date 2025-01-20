@@ -83,4 +83,5 @@ module.exports = {
     createPost,
     getAllPosts,
     updatePost,
+    createComment,
 };
