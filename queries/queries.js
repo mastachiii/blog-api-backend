@@ -25,10 +25,10 @@ class Post {
 
         console.log(post);
 
-        return post
+        return post;
     }
 
-    async getPosts() {
+    async getAllPosts() {
         const posts = await prisma.post.findMany({
             include: {
                 comments: true,
@@ -52,10 +52,57 @@ class Comment {
 
         return comment;
     }
+
+    async getComment({ id }) {
+        const comment = await prisma.comment.findUnique({
+            where: { id },
+            include: {
+                Post: true,
+            },
+        });
+    }
+
+    async getAllComments() {
+        const comments = await prisma.comment.findMany({
+            include: {
+                Post: true,
+            },
+        });
+        console.dir(comments, { colors: true, depth: null });
+        return comments;
+    }
+}
+
+class User {
+    async createUser({ username, password, email }) {
+        const user = await prisma.user.create({
+            data: {
+                username,
+                password,
+                email,
+                comments: {
+                    create: {
+                        body: "NULL"
+                    },
+                },
+            },
+        });
+
+        return user;
+    }
+
+    async getUser({ email }) {
+        const user = await prisma.user.findUnique({
+            where: { email },
+            include: {
+                comments: true
+            }
+        });
+        console.log(user);
+        return user;
+    }
 }
 
 const postdb = new Post();
 const commentdb = new Comment();
-
-// commentdb.createComment({ body: "Great post :)", postId: "9aa8e3f3-4ec9-4955-a3be-3dd93a7b41da" });
-postdb.getPost({ id: "9aa8e3f3-4ec9-4955-a3be-3dd93a7b41da" });
+const userdb = new User();
