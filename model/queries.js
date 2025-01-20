@@ -100,9 +100,20 @@ class User {
         return user;
     }
 
-    async getUser({ email }) {
+    async getUserByEmail({ email }) {
         const user = await prisma.user.findUnique({
             where: { email },
+            include: {
+                comments: true,
+            },
+        });
+
+        return user;
+    }
+
+    async getUserByUsername({ username }) {
+        const user = await prisma.user.findUnique({
+            where: { username },
             include: {
                 comments: true,
             },
