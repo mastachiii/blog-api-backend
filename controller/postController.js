@@ -1,7 +1,9 @@
-const { Post } = require("../model/queries");
+const { Post, Comment } = require("../model/queries");
 const { body, validationResult } = require("express-validator");
 
-const db = new Post();
+// Database stuff
+const post = new Post();
+const comment = new Comment();
 
 const validatePost = [
     body("title").trim().notEmpty().withMessage("Title is required").isLength({ max: 300 }).withMessage("Title must not exceed 300 characters."),
@@ -26,7 +28,7 @@ const createPost = [
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
             const { title, body, private } = req.body;
-            const post = await db.createPost({ title, body, isPrivate: private });
+            const post = await post.createPost({ title, body, isPrivate: private });
 
             return res.status(201).json({ post });
         } catch (err) {
@@ -45,7 +47,7 @@ const updatePost = [
 
             const { title, body, private } = req.body;
 
-            await db.updatePost({ title, body, isPrivate: private, postId: req.params.id });
+            await post.updatePost({ title, body, isPrivate: private, postId: req.params.id });
 
             return res.status(204).send();
         } catch (err) {
@@ -62,7 +64,10 @@ const createComment = [
 
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
-            await db.createComment({ body: req.body, postId: req.params.id });
+            // Change user param once auth stuff is done
+            await comment.createComment({ body: req.body.comment, userId: req.body.user, postId: req.params.id });
+
+            res.status(204).send();
         } catch (err) {
             next(err);
         }
@@ -71,7 +76,7 @@ const createComment = [
 
 async function getAllPosts(req, res, next) {
     try {
-        const posts = await db.getAllPosts();
+        const posts = await post.getAllPosts();
 
         return res.status(200).json({ posts });
     } catch (err) {

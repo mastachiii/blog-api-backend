@@ -51,11 +51,12 @@ class Post {
 }
 
 class Comment {
-    async createComment({ body, postId }) {
+    async createComment({ body, postId, userId }) {
         const comment = await prisma.comment.create({
             data: {
                 body,
                 postId,
+                userId
             },
         });
 
