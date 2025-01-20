@@ -7,4 +7,6 @@ route.get("/", controller.getAllPosts);
 
 route.post("/", controller.createPost);
 
+route.put("/", controller.updatePost);
+
 module.exports = route;

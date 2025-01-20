@@ -15,6 +15,19 @@ class Post {
         return post;
     }
 
+    async updatePost({ title, body, isPrivate, postId }) {
+        const post = await prisma.post.update({
+            where: { id: postId },
+            data: {
+                title,
+                body,
+                isPrivate,
+            },
+        });
+
+        return post;
+    }
+
     async getPost({ id }) {
         const post = await prisma.post.findUnique({
             where: { id },
@@ -78,7 +91,7 @@ class User {
                 email,
                 comments: {
                     create: {
-                        body: "NULL"
+                        body: "NULL",
                     },
                 },
             },
@@ -91,8 +104,8 @@ class User {
         const user = await prisma.user.findUnique({
             where: { email },
             include: {
-                comments: true
-            }
+                comments: true,
+            },
         });
 
         return user;
@@ -102,5 +115,5 @@ class User {
 module.exports = {
     Post,
     Comment,
-    User
-}
+    User,
+};

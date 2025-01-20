@@ -17,10 +17,28 @@ const createPost = [
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
             const { title, body, private } = req.body;
-
             const post = await db.createPost({ title, body, isPrivate: private });
 
             return res.status(201).json({ post });
+        } catch (err) {
+            next(err);
+        }
+    },
+];
+
+const updatePost = [
+    validateForm,
+    async (req, res, next) => {
+        try {
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
+
+            const { title, body, private, id } = req.body;
+
+            await db.updatePost({ title, body, isPrivate: private, postId: id });
+
+            return res.status(204).send();
         } catch (err) {
             next(err);
         }
@@ -40,4 +58,5 @@ async function getAllPosts(req, res, next) {
 module.exports = {
     createPost,
     getAllPosts,
+    updatePost,
 };
