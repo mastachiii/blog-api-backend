@@ -1,5 +1,6 @@
 const express = require("express");
 const passport = require("passport");
+const cors = require('cors')
 
 // Passport config
 const { userStrategy } = require("./passport/passport");
@@ -14,6 +15,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
 app.use("/posts", postAuthor);
 app.use("/posts", post);
 app.use("/", user);

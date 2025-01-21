@@ -72,10 +72,10 @@ const createUser = [
 async function logInUser(req, res, next) {
     try {
         const user = await db.getUserByUsername(req.body);
-        if (!user) return res.status(401).json({ message: "Incorrect username or password" });
+        if (!user) return res.status(401).json({ message: "Incorrect username or password", err: true });
 
         const match = await bcrypt.compare(req.body.password, user.password);
-        if (!match) return res.status(401).json({ message: "Incorrect username or password" });
+        if (!match) return res.status(401).json({ message: "Incorrect username or password", err: true });
 
         const secret = process.env.SECRET;
 
