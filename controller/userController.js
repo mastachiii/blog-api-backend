@@ -24,7 +24,7 @@ const validateUser = [
         .notEmpty()
         .withMessage("Email is required")
         .isEmail()
-        .withMessage("Enter a valid email address.")
+        .withMessage("The email is in an invalid format")
         .custom(async value => {
             const user = await db.getUserByEmail({ email: value });
 
@@ -53,7 +53,7 @@ const createUser = [
         try {
             const errors = validationResult(req);
 
-            if (!errors.isEmpty()) res.status(400).json({ errorMessage: errors.array(), err: true });
+            if (!errors.isEmpty()) return res.status(401).json({ messages: errors.array(), err: true });
 
             bcrypt.hash(req.body.password, 10, async (err, hashedPass) => {
                 if (err) next(err);
