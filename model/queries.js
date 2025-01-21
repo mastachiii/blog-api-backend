@@ -39,6 +39,30 @@ class Post {
         return post;
     }
 
+    async getAllPublicPosts() {
+        const posts = await prisma.post.findMany({
+            where: {
+                isPrivate: false,
+            },
+            include: {
+                comments: true,
+            },
+        });
+
+        console.log(posts);
+    }
+
+    async getAllPrivatePosts() {
+        const posts = await prisma.post.findMany({
+            where: {
+                isPrivate: true,
+            },
+            include: {
+                comments: true,
+            },
+        });
+    }
+
     async getAllPosts() {
         const posts = await prisma.post.findMany({
             include: {
@@ -56,7 +80,7 @@ class Comment {
             data: {
                 body,
                 postId,
-                userId
+                userId,
             },
         });
 

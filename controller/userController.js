@@ -24,7 +24,7 @@ const validateUser = [
         .notEmpty()
         .withMessage("Email is required")
         .isEmail()
-        .withMessage("The email is in an invalid format")
+        .withMessage("The email is in an invalid format.")
         .custom(async value => {
             const user = await db.getUserByEmail({ email: value });
 
