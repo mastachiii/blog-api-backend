@@ -65,9 +65,9 @@ const createComment = [
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
             // Change user param once auth stuff is done
-            await comment.createComment({ body: req.body.comment, userId: req.user.id, postId: req.params.id });
+            const data = await comment.createComment({ body: req.body.comment, userId: req.user.id, postId: req.params.id });
 
-            res.status(204).send();
+            res.status(201).json({ data });
         } catch (err) {
             next(err);
         }
@@ -76,7 +76,7 @@ const createComment = [
 
 async function getAllPosts(req, res, next) {
     try {
-        console.log(req.user.id)
+        console.log(req.user.id);
         const posts = await post.getAllPosts();
 
         return res.status(200).json({ posts });
@@ -87,11 +87,10 @@ async function getAllPosts(req, res, next) {
 
 async function getPost(req, res, next) {
     try {
-        console.log(req.user)
+        console.log(req.user);
         const data = await post.getPost({ id: req.params.id });
 
         return res.status(200).json({ data });
-
     } catch (err) {
         next(err);
     }
