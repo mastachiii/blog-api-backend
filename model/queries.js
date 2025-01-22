@@ -64,7 +64,7 @@ class Post {
             },
         });
 
-        return posts
+        return posts;
     }
 
     async getAllPosts() {

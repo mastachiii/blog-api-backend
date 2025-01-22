@@ -12,7 +12,6 @@ const options = {
     secretOrKey: process.env.SECRET,
 };
 
-// Two auth strategies, one to protect routes from unauth users and the other one to protect routes from users other than me...
 const userStrategy = new JwtStrategy(options, async (payload, done) => {
     try {
         const user = await db.getUserByUsername({ username: payload.user.username });
@@ -24,18 +23,4 @@ const userStrategy = new JwtStrategy(options, async (payload, done) => {
     }
 });
 
-const authorStrategy = new JwtStrategy(options, async (payload, done) => {
-    try {
-        const user = await db.getUserByUsername({ username: payload.user.username });
-        if (user.username !== "mastachii") return done(null, false);
-
-        return done(null, user);
-    } catch (err) {
-        done(err);
-    }
-});
-
-module.exports = {
-    userStrategy,
-    authorStrategy,
-};
+module.exports = userStrategy;

@@ -76,7 +76,6 @@ const createComment = [
 
 async function getAllPosts(req, res, next) {
     try {
-        console.log(req.user.id);
         const posts = await post.getAllPosts();
 
         return res.status(200).json({ posts });
@@ -87,7 +86,6 @@ async function getAllPosts(req, res, next) {
 
 async function getPost(req, res, next) {
     try {
-        console.log(req.user);
         const data = await post.getPost({ id: req.params.id });
 
         return res.status(200).json({ data });

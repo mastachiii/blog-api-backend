@@ -1,7 +1,7 @@
 const express = require("express");
 const controller = require("../controller/postController");
 const passport = require("passport");
-const { userStrategy } = require("../passport/passport");
+const userStrategy = require("../passport/passport");
 
 const route = express.Router();
 
