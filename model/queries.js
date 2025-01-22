@@ -32,7 +32,9 @@ class Post {
         const post = await prisma.post.findUnique({
             where: { id },
             include: {
-                comments: true,
+                comments: {
+                    include: { User: true },
+                },
             },
         });
 
@@ -49,7 +51,7 @@ class Post {
             },
         });
 
-        console.log(posts);
+        return posts;
     }
 
     async getAllPrivatePosts() {
@@ -61,6 +63,8 @@ class Post {
                 comments: true,
             },
         });
+
+        return posts
     }
 
     async getAllPosts() {
