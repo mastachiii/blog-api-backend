@@ -5,8 +5,10 @@ const { userStrategy } = require("../passport/passport");
 
 const route = express.Router();
 
-// User routes
 passport.use(userStrategy);
+
+route.get("/", passport.authenticate("jwt", { session: false }), controller.getAllPosts);
+route.get("/:id", controller.getPost);
 
 route.post("/:id", controller.createComment); // I think this is much better than creating a whole new route / controller for comments.
 

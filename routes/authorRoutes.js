@@ -7,8 +7,6 @@ const route = express.Router();
 
 passport.use(authorStrategy);
 
-route.get("/", passport.authenticate("jwt", { session: false }), controller.getAllPosts);
-
 route.post("/", controller.createPost);
 
 module.exports = route;

@@ -84,9 +84,21 @@ async function getAllPosts(req, res, next) {
     }
 }
 
+async function getPost(req, res, next) {
+    try {
+        const data = await post.getPost({ id: req.params.id });
+
+        return res.status(200).json({ data });
+
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createPost,
     getAllPosts,
     updatePost,
     createComment,
+    getPost,
 };

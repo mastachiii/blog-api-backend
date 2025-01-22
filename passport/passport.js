@@ -27,7 +27,6 @@ const userStrategy = new JwtStrategy(options, async (payload, done) => {
 
 const authorStrategy = new JwtStrategy(options, async (payload, done) => {
     try {
-        console.log(payload)
         const user = await db.getUserByUsername({ username: payload.user.username });
         if (user.username !== "mastachii") return done(null, false);
 
