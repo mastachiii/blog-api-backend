@@ -82,7 +82,7 @@ async function logInUser(req, res, next) {
         jwt.sign({ user }, secret, { expiresIn: "1d" }, (err, token) => {
             if (err) next(err);
 
-            res.json(token);
+            res.json({ token, user: user.username });
         });
     } catch (err) {
         next(err);

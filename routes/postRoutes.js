@@ -7,7 +7,7 @@ const route = express.Router();
 
 passport.use(userStrategy);
 
-route.get("/", passport.authenticate("jwt", { session: false }), controller.getAllPosts);
+route.get("/", controller.getAllPosts);
 route.get("/:id", controller.getPost);
 
 route.post("/:id", passport.authenticate("jwt", { session: false }), controller.createComment); // I think this is much better than creating a whole new route / controller for comments.
