@@ -1,7 +1,6 @@
 const express = require("express");
 const controller = require("../controller/postController");
 const passport = require("passport");
-const { authorStrategy } = require("../passport/passport");
 
 const route = express.Router();
 
@@ -13,5 +12,7 @@ function verifyAuthor(req, res, next) {
 }
 
 route.post("/", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.createPost);
+
+route.delete("/:id", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.deletePost);
 
 module.exports = route;

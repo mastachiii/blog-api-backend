@@ -64,7 +64,6 @@ const createComment = [
 
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
-            // Change user param once auth stuff is done
             const data = await comment.createComment({ body: req.body.comment, userId: req.user.id, postId: req.params.id });
 
             res.status(201).json({ data });
@@ -94,10 +93,21 @@ async function getPost(req, res, next) {
     }
 }
 
+async function deletePost(req, res, next) {
+    try {
+        await post.deletePost({ id: req.params.id });
+
+        return res.sendStatus(204);
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createPost,
     getAllPosts,
     updatePost,
     createComment,
     getPost,
+    deletePost,
 };

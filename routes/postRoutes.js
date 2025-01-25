@@ -5,8 +5,6 @@ const userStrategy = require("../passport/passport");
 
 const route = express.Router();
 
-passport.use(userStrategy);
-
 route.get("/", controller.getAllPosts);
 route.get("/:id", controller.getPost);
 

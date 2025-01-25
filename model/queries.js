@@ -28,6 +28,12 @@ class Post {
         return post;
     }
 
+    async deletePost({ id }) {
+        await prisma.post.delete({
+            where: { id },
+        });
+    }
+
     async getPost({ id }) {
         const post = await prisma.post.findUnique({
             where: { id },

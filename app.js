@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const cors = require("cors");
+const userStrategy = require('./passport/passport')
 
 // Routes
 const post = require("./routes/postRoutes");
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+passport.use(userStrategy); // Load strategy before routes
 app.use("/posts", post);
 app.use("/posts", postAuthor);
 app.use("/", user);
