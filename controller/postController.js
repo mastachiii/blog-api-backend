@@ -7,7 +7,7 @@ const comment = new Comment();
 
 const validatePost = [
     body("title").trim().notEmpty().withMessage("Title is required").isLength({ max: 300 }).withMessage("Title must not exceed 300 characters."),
-    body("body").trim().escape().notEmpty().withMessage("Post is required").isLength({ max: 40000 }).withMessage("Post must not exceed 40000 characters."),
+    body("body").trim().notEmpty().withMessage("Post is required").isLength({ max: 40000 }).withMessage("Post must not exceed 40000 characters."),
 ];
 
 const validateComment = [
@@ -23,12 +23,13 @@ const createPost = [
     validatePost,
     async (req, res, next) => {
         try {
+            console.log(req.body);
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
-            const { title, body, private } = req.body;
-            const newPost = await post.createPost({ title, body, isPrivate: private });
+            const { title, body, private, backdropUrl } = req.body;
+            const newPost = await post.createPost({ title, body, isPrivate: private, backdropUrl });
 
             return res.status(201).json({ newPost });
         } catch (err) {

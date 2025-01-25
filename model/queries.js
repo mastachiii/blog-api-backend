@@ -3,12 +3,13 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class Post {
-    async createPost({ title, body, isPrivate }) {
+    async createPost({ title, body, isPrivate, backdropUrl }) {
         const post = await prisma.post.create({
             data: {
                 title,
                 body,
                 isPrivate,
+                backdropUrl,
             },
         });
 
