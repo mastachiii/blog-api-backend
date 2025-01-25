@@ -14,12 +14,13 @@ datasource db {
 }
 
 model Post {
-  id        String    @id @default(uuid())
-  title     String
-  body      String
-  isPrivate Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  comments  Comment[]
+  id          String    @id @default(uuid())
+  title       String
+  body        String
+  backdropUrl String?
+  isPrivate   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  comments    Comment[]
 }
 
 model Comment {
