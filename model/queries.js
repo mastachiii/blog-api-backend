@@ -16,13 +16,15 @@ class Post {
         return post;
     }
 
-    async updatePost({ title, body, isPrivate, postId }) {
+    async updatePost({ title, body, isPrivate, backdropUrl, postId }) {
+        console.log(title)
         const post = await prisma.post.update({
             where: { id: postId },
             data: {
                 title,
                 body,
                 isPrivate,
+                backdropUrl,
             },
         });
 

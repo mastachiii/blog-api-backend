@@ -46,9 +46,9 @@ const updatePost = [
 
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
 
-            const { title, body, private } = req.body;
+            const { title, body, private, backdropUrl } = req.body;
 
-            await post.updatePost({ title, body, isPrivate: private, postId: req.params.id });
+            await post.updatePost({ title, body, isPrivate: private, backdropUrl, postId: req.params.id });
 
             return res.status(204).send();
         } catch (err) {

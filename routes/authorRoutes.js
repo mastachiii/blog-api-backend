@@ -1,6 +1,7 @@
 const express = require("express");
 const controller = require("../controller/postController");
 const passport = require("passport");
+const { verify } = require("jsonwebtoken");
 
 const route = express.Router();
 
@@ -14,5 +15,7 @@ function verifyAuthor(req, res, next) {
 route.post("/", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.createPost);
 
 route.delete("/:id", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.deletePost);
+
+route.put("/:id", passport.authenticate("jwt", { session: false }), verify, controller.updatePost);
 
 module.exports = route;
