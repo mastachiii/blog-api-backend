@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 passport.use(userStrategy); // Load strategy before routes
-app.use("/posts", post);
 app.use("/posts", postAuthor);
+app.use("/posts", post);
 app.use("/", user);
 
 // Error handler

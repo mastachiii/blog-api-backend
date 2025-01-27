@@ -12,6 +12,8 @@ function verifyAuthor(req, res, next) {
     next();
 }
 
+route.get("/author", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.getAllPosts);
+
 route.post("/", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.createPost);
 
 route.delete("/:id", passport.authenticate("jwt", { session: false }), verifyAuthor, controller.deletePost);

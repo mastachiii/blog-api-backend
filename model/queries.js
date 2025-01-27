@@ -17,7 +17,7 @@ class Post {
     }
 
     async updatePost({ title, body, isPrivate, backdropUrl, postId }) {
-        console.log(title)
+
         const post = await prisma.post.update({
             where: { id: postId },
             data: {
@@ -58,6 +58,9 @@ class Post {
             include: {
                 comments: true,
             },
+            orderBy: {
+                createdAt: "desc",
+            },
         });
 
         return posts;
@@ -80,6 +83,9 @@ class Post {
         const posts = await prisma.post.findMany({
             include: {
                 comments: true,
+            },
+            orderBy: {
+                createdAt: "desc",
             },
         });
 

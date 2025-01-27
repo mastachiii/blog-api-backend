@@ -23,7 +23,6 @@ const createPost = [
     validatePost,
     async (req, res, next) => {
         try {
-            console.log(req.body);
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) return res.status(400).json({ errorMessage: errors.array() });
@@ -74,6 +73,16 @@ const createComment = [
     },
 ];
 
+async function getAllPublicPosts(req, res, next) {
+    try {
+        const posts = await post.getAllPublicPosts();
+
+        return res.status(200).json({ posts });
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function getAllPosts(req, res, next) {
     try {
         const posts = await post.getAllPosts();
@@ -106,9 +115,10 @@ async function deletePost(req, res, next) {
 
 module.exports = {
     createPost,
-    getAllPosts,
+    getAllPublicPosts,
     updatePost,
     createComment,
     getPost,
     deletePost,
+    getAllPosts,
 };
